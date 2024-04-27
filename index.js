@@ -30,32 +30,35 @@ async function run() {
     const potteryCollection = client.db("potteryDB").collection("potteries");
 
     //data items read
-    app.get('/potteries', async(req,res)=>{
-        const cursor = potteryCollection.find();
-        const result = await cursor.toArray();
-        res.send(result);
+    app.get('/potteries', async (req, res) => {
+      const cursor = potteryCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
     })
 
-//pottery items create
-app.post('/potteries', async(req,res)=>{
-    const newPottery = req.body;
-    const result = await potteryCollection.insertOne(newPottery);
-    res.send(result);
-})
+    //pottery items create
+    app.post('/potteries', async (req, res) => {
+      const newPottery = req.body;
+      const result = await potteryCollection.insertOne(newPottery);
+      res.send(result);
+    })
 
 
 
 
 
-app.get("/addList/:email", async (req, res) => {
-  console.log(req.params.email);
-  const result = await potteryCollection.find({ email: req.params.email }).toArray();
-  res.send(result);
-})
+    app.get("/addList/:email", async (req, res) => {
+      console.log(req.params.email);
+      const result = await potteryCollection.find({ email: req.params.email }).toArray();
+      res.send(result);
+    })
 
-
-
-
+    app.get('/singleDetail/:id', async (req, res) => {
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) }
+      const result = await potteryCollection.findOne(query);
+      res.send(result);
+    })
 
 
 

@@ -36,6 +36,13 @@ async function run() {
       res.send(result);
     })
 
+    app.get('/potteries/:id', async(req,res) =>{
+      const id = req.params.id;
+      const query = { _id: new ObjectId(id) };
+      const result = await potteryCollection.findOne(query);
+      res.send(result);
+    })
+
     //pottery items create
     app.post('/potteries', async (req, res) => {
       const newPottery = req.body;
@@ -57,6 +64,33 @@ async function run() {
       const result = await potteryCollection.findOne(query);
       res.send(result);
     })
+
+
+    app.put('/updatePottery/:id', async (req, res) => {
+      const id = req.params.id;
+      const filter = { _id: new ObjectId(id) }
+      const options = { upsert: true };
+      const updatedPottery = req.body;
+
+      const pottery = {
+          $set: {
+              image: updatedPottery.image,
+              item_name: updatedPottery.item_name,
+              subcategory: updatedPottery.subcategory,
+              price: updatedPottery.price,
+              rating: updatedPottery.rating,
+              customize: updatedPottery.customize,
+              time: updatedPottery.time,
+              stockStatus: updatedPottery.stockStatus,
+              description: updatedPottery.description
+          }
+      }
+
+      const result = await potteryCollection.updateOne(filter, pottery, options);
+      res.send(result);
+  })
+
+
 
     app.delete('/delete/:id', async (req, res) => {
       const id = req.params.id;

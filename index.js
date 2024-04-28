@@ -28,6 +28,7 @@ async function run() {
     await client.connect();
 
     const potteryCollection = client.db("potteryDB").collection("potteries");
+    const subPotteryCollection = client.db("potteryDB").collection("potterySubCategory");
 
     //data items read
     app.get('/potteries', async (req, res) => {
@@ -53,7 +54,6 @@ async function run() {
 
 
     app.get("/addList/:email", async (req, res) => {
-      console.log(req.params.email);
       const result = await potteryCollection.find({ email: req.params.email }).toArray();
       res.send(result);
     })
@@ -101,7 +101,18 @@ async function run() {
     })
 
 
+    //subCategory data collection items read
+    app.get('/subPotteries', async (req, res) => {
+      const cursor = subPotteryCollection.find();
+      const result = await cursor.toArray();
+      res.send(result);
+    })
 
+
+    app.get("/subPotteries/:subcategory", async (req, res) => {
+      const result = await potteryCollection.find({ subcategory: req.params.subcategory }).toArray();
+      res.send(result);
+    })
 
     // Send a ping to confirm a successful connection
     await client.db("admin").command({ ping: 1 });

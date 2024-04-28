@@ -11,7 +11,7 @@ app.use(express.json());
 
 
 const uri = `mongodb+srv://${process.env.POTTERY_USER_DB}:${process.env.POTTERY_SECRET_KEY}@cluster0.zzqeakj.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0`;
-console.log(uri);
+
 
 // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 const client = new MongoClient(uri, {

@@ -36,7 +36,7 @@ async function run() {
       res.send(result);
     })
 
-    app.get('/potteries/:id', async(req,res) =>{
+    app.get('/potteries/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await potteryCollection.findOne(query);
@@ -66,6 +66,8 @@ async function run() {
     })
 
 
+
+    // update operation
     app.put('/updatePottery/:id', async (req, res) => {
       const id = req.params.id;
       const filter = { _id: new ObjectId(id) }
@@ -73,33 +75,30 @@ async function run() {
       const updatedPottery = req.body;
 
       const pottery = {
-          $set: {
-              image: updatedPottery.image,
-              item_name: updatedPottery.item_name,
-              subcategory: updatedPottery.subcategory,
-              price: updatedPottery.price,
-              rating: updatedPottery.rating,
-              customize: updatedPottery.customize,
-              time: updatedPottery.time,
-              stockStatus: updatedPottery.stockStatus,
-              description: updatedPottery.description
-          }
+        $set: {
+          image: updatedPottery.image,
+          item_name: updatedPottery.item_name,
+          subcategory: updatedPottery.subcategory,
+          price: updatedPottery.price,
+          rating: updatedPottery.rating,
+          customize: updatedPottery.customize,
+          time: updatedPottery.time,
+          stockStatus: updatedPottery.stockStatus,
+          description: updatedPottery.description
+        }
       }
-
       const result = await potteryCollection.updateOne(filter, pottery, options);
       res.send(result);
-  })
+    })
 
 
-
+    //Delete operation
     app.delete('/delete/:id', async (req, res) => {
       const id = req.params.id;
       const query = { _id: new ObjectId(id) };
       const result = await potteryCollection.deleteOne(query);
       res.send(result);
     })
-
-
 
 
 
@@ -112,7 +111,6 @@ async function run() {
   }
 }
 run().catch(console.dir);
-
 
 
 app.get('/', (req, res) => {
